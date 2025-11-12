@@ -11,46 +11,36 @@ dotenv.config();
 const app = express();
 
 // ----------------------
-// ✅ CORS Configuration
+// ✅ CORS Configuration (Vercel-optimized)
 // ----------------------
-
-// Define allowed origins for different environments
 const allowedOrigins = [
-  "http://localhost:5173", // Local frontend (Vite)
-  "https://taskmanager-dashboard-vijay.netlify.app", // Deployed frontend
+  "http://localhost:5173",
+  "https://taskmanager-dashboard-vijay.netlify.app",
 ];
 
-// 1️⃣ Basic CORS middleware (Vercel-compatible)
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      // Allow requests with no origin (mobile apps, Postman, etc.)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Accept",
+      "Origin",
+    ],
   })
 );
-
-// 2️⃣ Manual CORS headers for OPTIONS preflight (important for Vercel)
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
-
-  res.header(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  );
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.header("Access-Control-Allow-Credentials", "true");
-
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-
-  next();
-});
 
 // ----------------------
 // Middleware
@@ -93,48 +83,22 @@ mongoose
   })
   .catch((err) => {
     console.log("❌ MongoDB connection failed:", err.message);
-    console.log("Please make sure MongoDB is running on your system");
-    console.log(
-      "You can start MongoDB with: mongod --dbpath=/path/to/your/data/directory"
-    );
   });
-
-// ----------------------
-// MongoDB event handlers
-// ----------------------
-mongoose.connection.on("connected", () => {
-  console.log("Mongoose connected to MongoDB");
-});
-
-mongoose.connection.on("error", (err) => {
-  console.log("Mongoose connection error:", err);
-});
-
-mongoose.connection.on("disconnected", () => {
-  console.log("Mongoose disconnected");
-});
 
 // ----------------------
 // Create first admin user if missing
 // ----------------------
 const createFirstAdmin = async () => {
   try {
-    console.log("Checking for admin user...");
     const adminExists = await User.findOne({ role: "admin" });
-
     if (!adminExists) {
-      console.log("Creating first admin user...");
       await User.create({
         name: "System Administrator",
         email: "admin@example.com",
         password: "admin123",
         role: "admin",
       });
-      console.log("✅ First admin user created successfully");
-      console.log("📧 Email: admin@example.com");
-      console.log("🔑 Password: admin123");
-    } else {
-      console.log("✅ Admin user already exists");
+      console.log("✅ First admin user created");
     }
   } catch (error) {
     console.error("❌ Error creating first admin:", error.message);
@@ -145,17 +109,11 @@ const createFirstAdmin = async () => {
 // Server start
 // ----------------------
 const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//   console.log(`🚀 Server running on port ${PORT}`);
-//   console.log(`📍 Local: http://localhost:${PORT}`);
-//   console.log(`✅ Health check: http://localhost:${PORT}/api/health`);
-// });
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
 
 // ----------------------
-// Graceful shutdown
+// Export for Vercel
 // ----------------------
-process.on("SIGINT", async () => {
-  await mongoose.connection.close();
-  console.log("MongoDB connection closed");
-  process.exit(0);
-});
+export default app;
