@@ -10,50 +10,79 @@ dotenv.config();
 
 const app = express();
 
+// ----------------------
+// ✅ CORS Configuration
+// ----------------------
+
+// Define allowed origins for different environments
 const allowedOrigins = [
-  "http://localhost:5173", // Local frontend
+  "http://localhost:5173", // Local frontend (Vite)
   "https://taskmanager-dashboard-vijay.netlify.app", // Deployed frontend
 ];
 
-// Enhanced CORS configuration
+// 1️⃣ Basic CORS middleware (Vercel-compatible)
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: allowedOrigins,
     credentials: true,
   })
 );
-app.options("*", cors());
 
+// 2️⃣ Manual CORS headers for OPTIONS preflight (important for Vercel)
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
+// ----------------------
 // Middleware
+// ----------------------
 app.use(express.json());
 
+// ----------------------
 // Test route
+// ----------------------
 app.get("/api/health", (req, res) => {
   res.json({
-    message: "Backend server is running!",
+    message: "✅ Backend server is running!",
     timestamp: new Date().toISOString(),
   });
 });
 
+// ----------------------
 // Routes
+// ----------------------
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 
-// MongoDB connection with updated configuration
+// ----------------------
+// MongoDB connection
+// ----------------------
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/taskmanager";
 
 const mongooseOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 5000, // Timeout after 5s
-  // Remove bufferMaxEntries as it's deprecated
+  serverSelectionTimeoutMS: 5000,
 };
 
 mongoose
@@ -70,7 +99,9 @@ mongoose
     );
   });
 
-// Handle MongoDB connection events
+// ----------------------
+// MongoDB event handlers
+// ----------------------
 mongoose.connection.on("connected", () => {
   console.log("Mongoose connected to MongoDB");
 });
@@ -83,9 +114,9 @@ mongoose.connection.on("disconnected", () => {
   console.log("Mongoose disconnected");
 });
 
-const PORT = process.env.PORT || 5000;
-
-// Create first admin if doesn't exist
+// ----------------------
+// Create first admin user if missing
+// ----------------------
 const createFirstAdmin = async () => {
   try {
     console.log("Checking for admin user...");
@@ -110,13 +141,19 @@ const createFirstAdmin = async () => {
   }
 };
 
+// ----------------------
+// Server start
+// ----------------------
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📍 Local: http://localhost:${PORT}`);
   console.log(`✅ Health check: http://localhost:${PORT}/api/health`);
 });
 
+// ----------------------
 // Graceful shutdown
+// ----------------------
 process.on("SIGINT", async () => {
   await mongoose.connection.close();
   console.log("MongoDB connection closed");
