@@ -10,13 +10,22 @@ dotenv.config();
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173", // Local frontend
+  "https://taskmanager-dashboard-vijay.netlify.app", // Deployed frontend
+];
+
 // Enhanced CORS configuration
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://taskmanager-dashboard-vijay.netlify.app",
-    ],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
   })
 );
 
