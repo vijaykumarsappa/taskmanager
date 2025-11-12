@@ -10,12 +10,6 @@ package-lock.json
 pnpm-lock.yaml
 yarn.lock
 
-# --------------------------------------------------
-# Environment Variables
-# --------------------------------------------------
-.env
-frontend/.env
-backend/.env
 
 # --------------------------------------------------
 # Build Outputs (React & Node)
