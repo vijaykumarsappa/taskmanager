@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL =
-  "https://taskmanager-aw1o-jp0dj8wht-vijay-kumars-projects-503eec07.vercel.app/api";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
