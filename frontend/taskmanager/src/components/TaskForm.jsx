@@ -193,7 +193,7 @@ const TaskForm = ({ open, onClose, task }) => {
           <Button
             onClick={handleClose}
             disabled={isLoading}
-            sx={{ borderRadius: 2 }}
+            sx={{ borderRadius: 2, textTransform: "capitalize", color: "red" }}
           >
             Cancel
           </Button>
@@ -201,7 +201,11 @@ const TaskForm = ({ open, onClose, task }) => {
             type="submit"
             variant="contained"
             disabled={isLoading}
-            sx={{ borderRadius: 2 }}
+            sx={{
+              borderRadius: 2,
+              backgroundColor: "#3B7067",
+              textTransform: "capitalize",
+            }}
           >
             {isLoading ? (
               <CircularProgress size={20} color="inherit" />

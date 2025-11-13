@@ -71,7 +71,6 @@ const Layout = ({ children, darkMode, toggleDarkMode }) => {
 
   const drawer = (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      {/* Company Logo Section */}
       <Box
         sx={{
           p: 3,
@@ -81,7 +80,6 @@ const Layout = ({ children, darkMode, toggleDarkMode }) => {
         }}
       >
         <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
-          {/* Logo Container - Similar to analytics cards */}
           <Box
             sx={{
               p: 2,
@@ -109,7 +107,6 @@ const Layout = ({ children, darkMode, toggleDarkMode }) => {
         </Box>
       </Box>
 
-      {/* Navigation Menu */}
       <List sx={{ px: 2, py: 2, flex: 1 }}>
         {menuItems.map((item) => {
           const IconComponent = item.icon;
@@ -159,7 +156,6 @@ const Layout = ({ children, darkMode, toggleDarkMode }) => {
         })}
       </List>
 
-      {/* Sign Out Button at Bottom */}
       <Box sx={{ p: 2, borderTop: 1, borderColor: "divider" }}>
         <ListItemButton
           onClick={handleLogout}
@@ -190,7 +186,6 @@ const Layout = ({ children, darkMode, toggleDarkMode }) => {
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
-      {/* App Bar */}
       <AppBar
         position="fixed"
         sx={{
@@ -218,7 +213,6 @@ const Layout = ({ children, darkMode, toggleDarkMode }) => {
           <Box display="flex" alignItems="center" gap={2}>
             <ThemeToggle darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
 
-            {/* User Menu */}
             <Button
               color="inherit"
               onClick={handleUserMenuOpen}
@@ -236,7 +230,6 @@ const Layout = ({ children, darkMode, toggleDarkMode }) => {
               {user?.name}
             </Button>
 
-            {/* User Dropdown Menu */}
             <Menu
               anchorEl={userMenuAnchor}
               open={Boolean(userMenuAnchor)}
@@ -271,12 +264,10 @@ const Layout = ({ children, darkMode, toggleDarkMode }) => {
         </Toolbar>
       </AppBar>
 
-      {/* Sidebar Drawer */}
       <Box
         component="nav"
         sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
       >
-        {/* Mobile Drawer */}
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -294,7 +285,6 @@ const Layout = ({ children, darkMode, toggleDarkMode }) => {
           {drawer}
         </Drawer>
 
-        {/* Desktop Drawer */}
         <Drawer
           variant="permanent"
           sx={{
@@ -312,7 +302,6 @@ const Layout = ({ children, darkMode, toggleDarkMode }) => {
         </Drawer>
       </Box>
 
-      {/* Main Content */}
       <Box
         component="main"
         sx={{
@@ -323,7 +312,7 @@ const Layout = ({ children, darkMode, toggleDarkMode }) => {
           backgroundColor: theme.palette.background.default,
         }}
       >
-        <Toolbar /> {/* Spacer for AppBar */}
+        <Toolbar />
         {children}
       </Box>
     </Box>

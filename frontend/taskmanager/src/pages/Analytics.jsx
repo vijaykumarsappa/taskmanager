@@ -183,7 +183,6 @@ const Analytics = () => {
         {user?.role === "admin" && " (Administrator View)"}
       </Typography>
 
-      {/* Enhanced Stats Cards */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={3}>
           <Card
@@ -370,9 +369,7 @@ const Analytics = () => {
         </Grid>
       </Grid>
 
-      {/* Charts Section */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        {/* Weekly Performance Chart */}
         <Grid item xs={12} md={8}>
           <Paper sx={{ p: 3, borderRadius: "2px" }}>
             <Typography variant="h6" gutterBottom fontWeight="600">
@@ -405,7 +402,6 @@ const Analytics = () => {
           </Paper>
         </Grid>
 
-        {/* Task Status Distribution */}
         <Grid item xs={12} md={4}>
           <Paper sx={{ p: 3, borderRadius: "2px" }}>
             <Typography variant="h6" gutterBottom fontWeight="600">
@@ -442,9 +438,7 @@ const Analytics = () => {
         </Grid>
       </Grid>
 
-      {/* Additional Charts */}
       <Grid container spacing={3}>
-        {/* Monthly Trend */}
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3, borderRadius: "2px" }}>
             <Typography variant="h6" gutterBottom fontWeight="600">
@@ -472,7 +466,6 @@ const Analytics = () => {
           </Paper>
         </Grid>
 
-        {/* Performance Metrics */}
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3, borderRadius: "2px" }}>
             <Typography variant="h6" gutterBottom fontWeight="600">

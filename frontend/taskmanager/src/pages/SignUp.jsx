@@ -104,18 +104,18 @@ const SignUp = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        py: 4,
+        py: 2,
         px: 2,
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
       }}
     >
       <Paper
-        elevation={24}
+        elevation={8}
         sx={{
-          p: 6,
+          p: 4,
           width: "100%",
-          maxWidth: 500,
-          borderRadius: 4,
+          maxWidth: 400,
+          borderRadius: 2,
           background: "white",
         }}
       >
@@ -128,26 +128,23 @@ const SignUp = () => {
         >
           <Box
             sx={{
-              backgroundColor: "primary.main",
-              borderRadius: "50%",
-              p: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               mb: 2,
             }}
           >
-            <UserPlus size={32} color="white" />
+            <img
+              src="/company-logo.svg"
+              alt="Company Logo"
+              style={{
+                objectFit: "cover",
+              }}
+            />
           </Box>
 
           <Typography
-            component="h1"
-            variant="h4"
-            fontWeight="bold"
-            gutterBottom
-          >
-            Create Account
-          </Typography>
-
-          <Typography
-            variant="body1"
+            variant="body2"
             color="text.secondary"
             textAlign="center"
             mb={3}
@@ -156,14 +153,17 @@ const SignUp = () => {
           </Typography>
 
           {error && (
-            <Alert severity="error" sx={{ width: "100%", mb: 2 }}>
+            <Alert
+              severity="error"
+              sx={{ width: "100%", mb: 2, fontSize: "0.8rem" }}
+            >
               {error}
             </Alert>
           )}
 
           <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
             <TextField
-              margin="normal"
+              margin="dense"
               required
               fullWidth
               id="name"
@@ -175,16 +175,17 @@ const SignUp = () => {
               onChange={handleChange}
               error={!!formErrors.name}
               helperText={formErrors.name}
+              size="small"
               InputProps={{
                 startAdornment: (
-                  <User size={20} color="#64748b" style={{ marginRight: 8 }} />
+                  <User size={18} color="#64748b" style={{ marginRight: 8 }} />
                 ),
               }}
-              sx={{ mb: 2 }}
+              sx={{ mb: 1.5 }}
             />
 
             <TextField
-              margin="normal"
+              margin="dense"
               required
               fullWidth
               id="email"
@@ -195,16 +196,17 @@ const SignUp = () => {
               onChange={handleChange}
               error={!!formErrors.email}
               helperText={formErrors.email}
+              size="small"
               InputProps={{
                 startAdornment: (
-                  <Mail size={20} color="#64748b" style={{ marginRight: 8 }} />
+                  <Mail size={18} color="#64748b" style={{ marginRight: 8 }} />
                 ),
               }}
-              sx={{ mb: 2 }}
+              sx={{ mb: 1.5 }}
             />
 
             <TextField
-              margin="normal"
+              margin="dense"
               required
               fullWidth
               name="password"
@@ -216,16 +218,17 @@ const SignUp = () => {
               onChange={handleChange}
               error={!!formErrors.password}
               helperText={formErrors.password}
+              size="small"
               InputProps={{
                 startAdornment: (
-                  <Lock size={20} color="#64748b" style={{ marginRight: 8 }} />
+                  <Lock size={18} color="#64748b" style={{ marginRight: 8 }} />
                 ),
               }}
-              sx={{ mb: 2 }}
+              sx={{ mb: 1.5 }}
             />
 
             <TextField
-              margin="normal"
+              margin="dense"
               required
               fullWidth
               name="confirmPassword"
@@ -236,30 +239,32 @@ const SignUp = () => {
               onChange={handleChange}
               error={!!formErrors.confirmPassword}
               helperText={formErrors.confirmPassword}
+              size="small"
               InputProps={{
                 startAdornment: (
-                  <Lock size={20} color="#64748b" style={{ marginRight: 8 }} />
+                  <Lock size={18} color="#64748b" style={{ marginRight: 8 }} />
                 ),
               }}
-              sx={{ mb: 3 }}
+              sx={{ mb: 2 }}
             />
 
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              size="large"
+              size="medium"
               disabled={isLoading}
               sx={{
-                py: 1.5,
-                borderRadius: 2,
-                fontSize: "1.1rem",
+                py: 1,
+                borderRadius: 1.5,
+                fontSize: "0.9rem",
                 fontWeight: 600,
                 mb: 2,
+                textTransform: "capitalize",
               }}
             >
               {isLoading ? (
-                <CircularProgress size={24} color="inherit" />
+                <CircularProgress size={20} color="inherit" />
               ) : (
                 "Create Account"
               )}

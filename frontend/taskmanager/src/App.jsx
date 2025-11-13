@@ -94,6 +94,7 @@ const AppContent = () => {
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/settings"
               element={

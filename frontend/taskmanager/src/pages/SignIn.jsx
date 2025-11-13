@@ -12,6 +12,7 @@ import {
   Checkbox,
   FormControlLabel,
   Divider,
+  capitalize,
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -111,19 +112,19 @@ const SignIn = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        py: 4,
+        py: 2,
         px: 2,
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
       }}
     >
       <Paper
-        elevation={24}
+        elevation={8}
         sx={{
-          p: 6,
+          p: 4,
           width: "100%",
-          maxWidth: 500,
+          maxWidth: 400,
           borderRadius: 2,
-          background: "linear-gradient(145deg, #f5f7fa 0%, #c3cfe2 100%)",
+          background: "white",
         }}
       >
         <Box
@@ -135,42 +136,42 @@ const SignIn = () => {
         >
           <Box
             sx={{
-              backgroundColor: "primary.main",
-              borderRadius: "50%",
-              p: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               mb: 2,
             }}
           >
-            <LogIn size={32} color="white" />
+            <img
+              src="/company-logo.svg"
+              alt="Company Logo"
+              style={{
+                objectFit: "cover",
+              }}
+            />
           </Box>
 
           <Typography
-            component="h1"
-            variant="h4"
-            fontWeight="bold"
-            gutterBottom
-          >
-            Welcome Back
-          </Typography>
-
-          <Typography
-            variant="body1"
+            variant="body2"
             color="text.secondary"
             textAlign="center"
             mb={3}
           >
-            Sign in to your account to continue managing your tasks
+            Sign in to your account to continue
           </Typography>
 
           {error && (
-            <Alert severity="error" sx={{ width: "100%", mb: 2 }}>
+            <Alert
+              severity="error"
+              sx={{ width: "100%", mb: 2, fontSize: "0.8rem" }}
+            >
               {error}
             </Alert>
           )}
 
           <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
             <TextField
-              margin="normal"
+              margin="dense"
               required
               fullWidth
               id="email"
@@ -182,16 +183,17 @@ const SignIn = () => {
               onChange={handleChange}
               error={!!formErrors.email}
               helperText={formErrors.email}
+              size="small"
               InputProps={{
                 startAdornment: (
-                  <Mail size={20} color="#64748b" style={{ marginRight: 8 }} />
+                  <Mail size={18} color="#64748b" style={{ marginRight: 8 }} />
                 ),
               }}
-              sx={{ mb: 2 }}
+              sx={{ mb: 1.5 }}
             />
 
             <TextField
-              margin="normal"
+              margin="dense"
               required
               fullWidth
               name="password"
@@ -203,21 +205,22 @@ const SignIn = () => {
               onChange={handleChange}
               error={!!formErrors.password}
               helperText={formErrors.password}
+              size="small"
               InputProps={{
                 startAdornment: (
-                  <Lock size={20} color="#64748b" style={{ marginRight: 8 }} />
+                  <Lock size={18} color="#64748b" style={{ marginRight: 8 }} />
                 ),
                 endAdornment: (
                   <Button
                     type="button"
                     onClick={togglePasswordVisibility}
-                    sx={{ minWidth: "auto", p: 0.5 }}
+                    sx={{
+                      minWidth: "auto",
+                      p: 0.5,
+                      color: "#64748b",
+                    }}
                   >
-                    {showPassword ? (
-                      <EyeOff size={20} color="#64748b" />
-                    ) : (
-                      <Eye size={20} color="#64748b" />
-                    )}
+                    {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                   </Button>
                 ),
               }}
@@ -228,7 +231,7 @@ const SignIn = () => {
               display="flex"
               justifyContent="space-between"
               alignItems="center"
-              mb={3}
+              mb={2}
             >
               <FormControlLabel
                 control={
@@ -237,9 +240,10 @@ const SignIn = () => {
                     checked={formData.rememberMe}
                     onChange={handleChange}
                     color="primary"
+                    size="small"
                   />
                 }
-                label="Remember me"
+                label={<Typography variant="body2">Remember me</Typography>}
               />
 
               <Link
@@ -248,6 +252,7 @@ const SignIn = () => {
                 variant="body2"
                 sx={{
                   textDecoration: "none",
+                  fontSize: "0.8rem",
                   "&:hover": {
                     textDecoration: "underline",
                   },
@@ -261,23 +266,25 @@ const SignIn = () => {
               type="submit"
               fullWidth
               variant="contained"
-              size="large"
+              size="medium"
               disabled={isLoading}
               sx={{
-                py: 1.5,
-                borderRadius: 2,
-                fontSize: "1.1rem",
+                py: 1,
+                borderRadius: 1.5,
+                fontSize: "0.9rem",
                 fontWeight: 600,
+                mb: 2,
+                textTransform: "capitalize",
               }}
             >
               {isLoading ? (
-                <CircularProgress size={24} color="inherit" />
+                <CircularProgress size={20} color="inherit" />
               ) : (
-                "Sign In"
+                "sign In"
               )}
             </Button>
 
-            <Divider sx={{ my: 3 }}>
+            <Divider sx={{ my: 2 }}>
               <Typography variant="body2" color="text.secondary">
                 NEW HERE?
               </Typography>
